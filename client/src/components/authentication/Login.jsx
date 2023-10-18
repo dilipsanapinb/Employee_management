@@ -21,7 +21,8 @@ const Login = () => {
                 email,
                 password
             }, config);
-            localStorage.setItem('userInfo', JSON.stringify(data));
+            // console.log(data.accessToken);
+            localStorage.setItem('userInfo', JSON.stringify(data.accessToken));
             setLoading(false);
             navigate('/dashboard')
         } catch (error) {

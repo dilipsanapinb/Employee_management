@@ -9,7 +9,7 @@ require("dotenv").config();
 exports.registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        console.log(name,email.password);
+        // console.log(name,email.password);
         const user = await User.findOne({ email });
         if (user) {
             return res
