@@ -21,10 +21,10 @@ exports.getEmployees = async (req, res) => {
 // add a employee
 exports.addEmployee = async (req, res) => {
     try {
-        const {firstname,lastname,email,department,salary} = req.body;
+        const { firstname, lastname, email, department, salary } = req.body;
 
         // Create a new employee using the Employee model
-        const newEmployee = new Employee({firstname,lastname,email,department,salary});
+        const newEmployee = new Employee({ firstname, lastname, email, department, salary });
 
         // Save the employee to the database
         await newEmployee.save();
@@ -32,8 +32,49 @@ exports.addEmployee = async (req, res) => {
         res.status(201).json({ message: 'Employee added successfully', employee: newEmployee });
     } catch (error) {
         res
-          .status(500)
-          .json({ message: "Error adding employee", error: error.message });
+            .status(500)
+            .json({ message: "Error adding employee", error: error.message });
     }
-}
+};
+
+// Update an employee
+exports.updateEmployee = async (req, res) => {
+    try {
+        const employeeId = req.params.id;
+
+        const updatedData = req.body;
+
+        const updatedEmployee = await Employee.findByIdAndUpdate(
+            employeeId,
+            updatedData,
+            { new: true }
+        );
+
+        res
+            .status(200)
+            .json({
+                message: "Employee updated successfully",
+                employee: updatedEmployee,
+            });
+    } catch (error) {
+        res
+            .status(500)
+            .json({ message: "Error updating employee", error: error.message });
+    }
+};
+
+// Delete an employee
+exports.deleteEmployee = async (req, res) => {
+    try {
+
+        const employeeId = req.params.id;
+        await Employee.findByIdAndRemove(employeeId);
+
+        res.status(204).json({ message: "Employee deleted successfully" });
+    } catch (error) {
+        res
+            .status(500)
+            .json({ message: "Error deleting employee", error: error.message });
+    }
+};
 
